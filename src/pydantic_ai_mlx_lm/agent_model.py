@@ -15,8 +15,8 @@ from pydantic_ai.settings import ModelSettings
 from pydantic_ai.tools import ToolDefinition
 from pydantic_ai.usage import Usage
 
-from .generator import AsyncGeneratorWrapper
 from .response import MLXStreamedResponse
+from .stream import AsyncStream
 from .utils import map_message
 
 
@@ -88,7 +88,7 @@ class MLXAgentModel(AgentModel):
             ),
             max_tokens=model_settings.get("max_tokens", 1000) if model_settings else 1000,
         )
-        return AsyncGeneratorWrapper(generator)
+        return AsyncStream(generator)
 
     @staticmethod
     def _process_response(response: str) -> ModelResponse:

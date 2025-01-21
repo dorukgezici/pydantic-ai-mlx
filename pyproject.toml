@@ -1,7 +1,7 @@
 [project]
 name = "pydantic-ai-mlx-lm"
-version = "0.1.6"
-description = "Adds MLX models support to Pydantic AI"
+version = "0.1.7"
+description = "Run MLX compatible HuggingFace models with Pydantic AI"
 readme = "README.md"
 authors = [{ name = "Doruk Gezici", email = "doruk@gezici.me" }]
 requires-python = ">=3.12"
