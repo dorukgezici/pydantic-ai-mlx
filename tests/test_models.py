@@ -2,7 +2,7 @@ from __future__ import annotations as _annotations
 
 import pytest
 from inline_snapshot import snapshot
-from mlx.nn import Module  # pyright: ignore reportMissingTypeStubs
+from mlx.nn import Module  # pyright: ignore[reportMissingTypeStubs]
 from mlx_lm.tokenizer_utils import TokenizerWrapper
 from pydantic_ai import Agent
 from pydantic_ai.messages import ModelResponse, TextPart

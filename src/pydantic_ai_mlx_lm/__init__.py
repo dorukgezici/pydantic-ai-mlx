@@ -1,4 +1,5 @@
-from .models import MLXAgentModel, MLXModel
+from .agent_model import MLXAgentModel
+from .model import MLXModel
 
 __all__ = [
     "MLXModel",
