@@ -1,0 +1,7 @@
+[
+  {
+    "label": "test",
+    "command": "pytest tests -s --inline-snapshot=review",
+    "reveal": "always"
+  }
+]

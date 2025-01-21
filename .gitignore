@@ -1,0 +1,10 @@
+# misc
+.DS_Store
+.ropeproject/
+
+# python
+.venv
+*.pyc
+__pycache__/
+.ruff_cache/
+dist/
