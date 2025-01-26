@@ -72,7 +72,7 @@ class MLXAgentModel(AgentModel):
             return generate(
                 model=self.model,
                 tokenizer=self.tokenizer,
-                prompt=self.tokenizer.apply_chat_template(  # pyright: ignore reportUnknownMemberType
+                prompt=self.tokenizer.apply_chat_template(  # type: ignore
                     conversation=conversation,
                     add_generation_prompt=True,
                 ),
@@ -82,7 +82,7 @@ class MLXAgentModel(AgentModel):
         generator = stream_generate(
             model=self.model,
             tokenizer=self.tokenizer,
-            prompt=self.tokenizer.apply_chat_template(  # pyright: ignore reportUnknownMemberType
+            prompt=self.tokenizer.apply_chat_template(  # type: ignore
                 conversation=conversation,
                 add_generation_prompt=True,
             ),
@@ -90,14 +90,16 @@ class MLXAgentModel(AgentModel):
         )
         return AsyncStream(generator)
 
-    @staticmethod
-    def _process_response(response: str) -> ModelResponse:
+    def _process_response(self, response: str) -> ModelResponse:
         """Process a non-streamed response, and prepare a message to return."""
 
-        return ModelResponse(parts=[TextPart(content=response)], timestamp=datetime.now(timezone.utc))
+        return ModelResponse(
+            parts=[TextPart(content=response)],
+            model_name=self.model_name,
+            timestamp=datetime.now(timezone.utc),
+        )
 
-    @staticmethod
-    async def _process_streamed_response(response: AsyncIterable[GenerationResponse]) -> MLXStreamedResponse:
+    async def _process_streamed_response(self, response: AsyncIterable[GenerationResponse]) -> MLXStreamedResponse:
         """Process a streamed response, and prepare a streaming response to return."""
 
         peekable_response = _utils.PeekableAsyncStream(response)
@@ -106,4 +108,8 @@ class MLXAgentModel(AgentModel):
         if isinstance(first_chunk, _utils.Unset):
             raise UnexpectedModelBehavior("Streamed response ended without content or tool calls")
 
-        return MLXStreamedResponse(peekable_response, datetime.now(timezone.utc))
+        return MLXStreamedResponse(
+            _model_name=self.model_name,
+            _response=peekable_response,
+            _timestamp=datetime.now(timezone.utc),
+        )
