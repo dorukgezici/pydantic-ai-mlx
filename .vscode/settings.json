@@ -1,5 +1,5 @@
 {
-  "python.testing.pytestArgs": ["tests", "-s", "--inline-snapshot=review"],
+  "python.testing.pytestArgs": ["tests", "-s", "--inline-snapshot=fix"],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true
 }

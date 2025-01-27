@@ -24,7 +24,6 @@ from pydantic_ai.messages import (
 )
 from pydantic_ai.models import AgentModel, StreamedResponse
 from pydantic_ai.settings import ModelSettings
-from pydantic_ai.tools import ToolDefinition
 from pydantic_ai.usage import Usage
 
 from .response import MLXStreamedResponse
@@ -41,8 +40,7 @@ class MLXAgentModel(AgentModel):
     tokenizer: TokenizerWrapper
 
     allow_text_result: bool
-    function_tools: list[ToolDefinition]
-    result_tools: list[ToolDefinition]
+    tools: list[chat.ChatCompletionToolParam]
 
     async def request(
         self, messages: list[ModelMessage], model_settings: ModelSettings | None
@@ -78,6 +76,7 @@ class MLXAgentModel(AgentModel):
     ) -> str | AsyncIterable[GenerationResponse]:
         """Standalone function to make it easier to override"""
 
+        max_tokens = model_settings.get("max_tokens", 1000) if model_settings else 1000
         conversation = list(chain(*(self._map_message(m) for m in messages)))
         prompt = self.tokenizer.apply_chat_template(  # type: ignore
             conversation=conversation,
@@ -90,14 +89,14 @@ class MLXAgentModel(AgentModel):
                 model=self.model,
                 tokenizer=self.tokenizer,
                 prompt=prompt,  # type: ignore
-                max_tokens=model_settings.get("max_tokens", 1000) if model_settings else 1000,
+                max_tokens=max_tokens,
             )
 
         generator = stream_generate(
             model=self.model,
             tokenizer=self.tokenizer,
             prompt=prompt,  # type: ignore
-            max_tokens=model_settings.get("max_tokens", 1000) if model_settings else 1000,
+            max_tokens=max_tokens,
         )
         return AsyncStream(generator)
 
