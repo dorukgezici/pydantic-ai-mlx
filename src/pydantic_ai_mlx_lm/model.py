@@ -11,7 +11,10 @@ from pydantic_ai.tools import ToolDefinition
 
 from .agent_model import MLXAgentModel
 
-KnownMLXModelName = Literal["mlx-community/Mistral-7B-Instruct-v0.3-4bit"]
+KnownMLXModelName = Literal[
+    "mlx-community/Mistral-7B-Instruct-v0.3-4bit",
+    "mlx-community/DeepSeek-R1-Distill-Qwen-1.5B",
+]
 """
 For a full list see [link](github.com/ml-explore/mlx-examples/blob/main/llms/README.md#supported-models).
 """

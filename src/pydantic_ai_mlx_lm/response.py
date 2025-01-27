@@ -6,16 +6,20 @@ from mlx_lm.utils import GenerationResponse
 from pydantic_ai.messages import ModelResponseStreamEvent
 from pydantic_ai.models import StreamedResponse
 
+from .utils import map_usage
+
 
 @dataclass
 class MLXStreamedResponse(StreamedResponse):
-    """Implementation of `StreamedResponse` for MLX models."""
+    """Implementation of `StreamedResponse` for mlx-lm models."""
 
     _response: AsyncIterable[GenerationResponse]
     _timestamp: datetime
 
     async def _get_event_iterator(self) -> AsyncIterator[ModelResponseStreamEvent]:
         async for chunk in self._response:
+            self._usage += map_usage(chunk)
+
             # Handle the text part of the response
             content = chunk.text
             if content:
