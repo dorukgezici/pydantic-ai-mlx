@@ -5,11 +5,11 @@
 </div>
 
 <p align="center">
-  <a href="https://pypi.org/project/pydantic-ai-mlx-lm">
-    <img src="https://img.shields.io/pypi/pyversions/pydantic-ai-mlx-lm" alt="pydantic-ai-mlx-lm" />
+  <a href="https://pypi.org/project/pydantic-ai-mlx">
+    <img src="https://img.shields.io/pypi/pyversions/pydantic-ai-mlx" alt="pydantic-ai-mlx" />
   </a>
-  <a href="https://pypi.org/project/pydantic-ai-mlx-lm">
-    <img src="https://img.shields.io/pypi/dm/pydantic-ai-mlx-lm" alt="PyPI download count">
+  <a href="https://pypi.org/project/pydantic-ai-mlx">
+    <img src="https://img.shields.io/pypi/dm/pydantic-ai-mlx" alt="PyPI download count">
   </a>
 </p>
 
