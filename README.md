@@ -16,8 +16,8 @@
 Run MLX compatible HuggingFace models on Apple silicon locally with Pydantic AI.
 
 Two options are provided as backends;
-- LM Studio backend (OpenAI compatible server that can also utilize mlx-lm, model runs on a seperate process)
-- mlx-lm backend (direct integration with Apple's library, model runs within your Python process, *experimental*)
+- LM Studio backend (OpenAI compatible server that can also utilize mlx-lm, model runs on a separate background process)
+- mlx-lm backend (direct integration with Apple's library, model runs within your applicaiton, *experimental support*)
 
 *STILL IN DEVELOPMENT, NOT RECOMMENDED FOR PRODUCTION USE YET.*
 

@@ -21,6 +21,7 @@ from pydantic_ai.models.openai import OpenAIModel
 CommonLMStudioModelNames = Literal[
     "mlx-community/Qwen2.5-7B-Instruct-4bit",  # tool support
     "mlx-community/Llama-3.2-3B-Instruct-4bit",  # tool support
+    "mlx-community/Meta-Llama-3.1-8B-Instruct-8bit",  # tool support
     "mlx-community/Mistral-7B-Instruct-v0.3-4bit",
     "mlx-community/DeepSeek-R1-Distill-Qwen-7B-4bit",
     "mlx-community/DeepSeek-R1-Distill-Qwen-14B-4bit",
