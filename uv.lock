@@ -495,7 +495,7 @@ wheels = [
 
 [[package]]
 name = "pydantic-ai-mlx"
-version = "0.2.0"
+version = "0.2.1"
 source = { editable = "." }
 dependencies = [
     { name = "mlx-lm" },
