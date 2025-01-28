@@ -13,6 +13,7 @@ from pydantic_ai.tools import ToolDefinition
 from .agent_model import MLXAgentModel
 
 KnownMLXModelName = Literal[
+    "mlx-community/Qwen2.5-7B-Instruct-4bit",
     "mlx-community/Llama-3.2-3B-Instruct-4bit",
     "mlx-community/Mistral-7B-Instruct-v0.3-4bit",
     "mlx-community/DeepSeek-R1-Distill-Qwen-14B-4bit",
