@@ -6,8 +6,6 @@ from pydantic_ai import Agent, Tool
 from pydantic_ai_mlx_lm import MLXModel
 
 MODEL_NAME = "mlx-community/Llama-3.2-3B-Instruct-4bit"
-# MODEL_NAME = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
-# MODEL_NAME = "mlx-community/DeepSeek-R1-Distill-Qwen-1.5B"
 
 
 @pytest.fixture
@@ -21,22 +19,19 @@ def agent(m: MLXModel) -> Agent:
 
 
 @pytest.fixture
-def agent_with_tools(m: MLXModel) -> Agent:
-    def greet_user(name: str) -> str:
-        """Greet the user with their name.
-
-        Args:
-            name (str): Name of the user.
+def agent_joker(m: MLXModel, agent: Agent) -> Agent:
+    async def generate_joke() -> str:
+        """Generate a short joke.
 
         Returns:
-            str: Greeting message.
+            str: A short joke.
         """
-        return f"Hey there {name}!"
+        result = await agent.run("Tell me a short joke")
+        return result.data
 
     return Agent(
-        model=m,
-        system_prompt="You are a chatbot, just greet the user.",
-        tools=[
-            Tool(greet_user, takes_ctx=False),
-        ],
+        m,
+        system_prompt="You are a chatbot who loves to tell jokes.",
+        retries=5,
+        tools=[Tool(generate_joke, takes_ctx=False)],
     )

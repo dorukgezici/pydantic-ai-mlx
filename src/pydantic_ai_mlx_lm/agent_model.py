@@ -152,8 +152,7 @@ class MLXAgentModel(AgentModel):
     def _map_user_message(self, message: ModelRequest) -> Iterable[chat.ChatCompletionMessageParam]:
         for part in message.parts:
             if isinstance(part, SystemPromptPart):
-                pass
-                # yield chat.ChatCompletionSystemMessageParam(role="system", content=part.content)
+                yield chat.ChatCompletionSystemMessageParam(role="system", content=part.content)
 
             if isinstance(part, UserPromptPart):
                 yield chat.ChatCompletionUserMessageParam(role="user", content=part.content)
@@ -161,7 +160,7 @@ class MLXAgentModel(AgentModel):
             if isinstance(part, ToolReturnPart):
                 yield chat.ChatCompletionToolMessageParam(
                     role="tool",
-                    tool_call_id=_guard_tool_call_id(t=part, model_source="OpenAI"),
+                    tool_call_id=_guard_tool_call_id(t=part, model_source="mlx-lm"),
                     content=part.model_response_str(),
                 )
 
@@ -171,6 +170,6 @@ class MLXAgentModel(AgentModel):
                 else:
                     yield chat.ChatCompletionToolMessageParam(
                         role="tool",
-                        tool_call_id=_guard_tool_call_id(t=part, model_source="OpenAI"),
+                        tool_call_id=_guard_tool_call_id(t=part, model_source="mlx-lm"),
                         content=part.model_response(),
                     )

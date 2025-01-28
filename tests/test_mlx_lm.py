@@ -1,6 +1,5 @@
 from __future__ import annotations as _annotations
 
-from devtools import debug
 from inline_snapshot import snapshot
 from mlx.nn import Module  # pyright: ignore[reportMissingTypeStubs]
 from mlx_lm.tokenizer_utils import TokenizerWrapper
@@ -21,27 +20,45 @@ async def test_request_simple_success(agent: Agent):
     result = await agent.run("How many states are there in USA?")
     messages = result.new_messages()
 
-    assert isinstance(result.data, str)
-    assert len(result.data) > 0
-    assert result.usage() == snapshot(Usage(requests=1))
+    assert result.usage() == snapshot(
+        Usage(requests=1, request_tokens=25, response_tokens=385, total_tokens=410),
+    )
 
     assert isinstance(messages[-1], ModelResponse)
     assert isinstance(messages[-1].parts[0], TextPart)
-    assert messages[-1].parts[0].content == snapshot("There are 50 states in the United States of America.")
+    assert messages[-1].parts[0].content == result.data
+
+    assert isinstance(result.data, str)
+    assert len(result.data) > 0
+    assert result.data == snapshot(
+        "There are 50 states in the United States of America.",
+    )
 
 
-async def test_request_tools_success(agent_with_tools: Agent):
-    result = await agent_with_tools.run("My name is Doruk.")
+async def test_request_tools_success(agent_joker: Agent):
+    result = await agent_joker.run("Hey! I am Doruk. Tell me a joke.")
     messages = result.new_messages()
 
-    assert isinstance(result.data, str)
-    assert len(result.data) > 0
-    assert result.usage() == snapshot(Usage(requests=1))
-    debug(messages)
+    assert result.usage() == snapshot(
+        Usage(requests=1, request_tokens=308, response_tokens=41, total_tokens=349),
+    )
+
     assert isinstance(messages[-1], ModelResponse)
     assert isinstance(messages[-1].parts[0], TextPart)
-    assert messages[-1].parts[0].content == snapshot(
-        "Hello Doruk! It's nice to meet you. Is there something I can help you with, or would you like to chat?"
+    assert messages[-1].parts[0].content == result.data
+
+    assert isinstance(result.data, str)
+    assert len(result.data) > 0
+    assert result.data == snapshot(
+        """\
+Nice to meet you, Doruk! Here's one:
+
+A man walked into a library and asked the librarian, "Do you have any books on Pavlov's dogs and Schrödinger's cat?"
+
+The librarian replied, "It rings a bell, but I'm not sure if it's here or not."
+
+Hope that made you laugh, Doruk! Do you want to hear another one?\
+""",
     )
 
 
@@ -49,11 +66,9 @@ async def test_stream_text(agent: Agent):
     async with agent.run_stream("Who is the current president of USA?") as result:
         assert not result.is_complete
         assert [c async for c in result.stream_text(debounce_by=0.1)] == snapshot(
-            [
-                "As of my knowledge cutoff in December 2023, Joe Biden is the President of the United States. However, please note that my information may not be up-to-date, and you may want to verify this information for the most recent and accurate answer."
-            ]
+            ["As of my knowledge cutoff in 2023, Joe Biden is the President of the United States."],
         )
         assert result.is_complete
         assert result.usage() == snapshot(
-            Usage(requests=1, request_tokens=2236, response_tokens=1378, total_tokens=3614)
+            Usage(requests=1, request_tokens=1197, response_tokens=231, total_tokens=1428)
         )

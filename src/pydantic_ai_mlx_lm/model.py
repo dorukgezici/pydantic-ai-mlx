@@ -15,7 +15,7 @@ from .agent_model import MLXAgentModel
 KnownMLXModelName = Literal[
     "mlx-community/Llama-3.2-3B-Instruct-4bit",
     "mlx-community/Mistral-7B-Instruct-v0.3-4bit",
-    "mlx-community/DeepSeek-R1-Distill-Qwen-1.5B",
+    "mlx-community/DeepSeek-R1-Distill-Qwen-14B-4bit",
 ]
 """
 For a full list see [link](github.com/ml-explore/mlx-examples/blob/main/llms/README.md#supported-models).
