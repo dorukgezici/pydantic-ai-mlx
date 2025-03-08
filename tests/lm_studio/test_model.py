@@ -10,14 +10,13 @@ from pydantic_ai_lm_studio import LMStudioModel
 
 def test_init(model_name: str, model: LMStudioModel):
     assert model.model_name == model_name
-    assert model.name() == f"lm-studio:{model_name}"
 
 
 async def test_stream_text(agent: Agent):
     async with agent.run_stream("Who is the current president of USA?") as result:
         assert not result.is_complete
         assert [c async for c in result.stream_text(debounce_by=0.1)] == snapshot(
-            ["The current president of the", "The current president of the USA is Joe Biden."],
+            ["The current", "The current president of the USA", "The current president of the USA is Joe Biden."],
         )
         assert result.is_complete
         assert result.usage() == snapshot(
@@ -49,7 +48,7 @@ async def test_agent_joker(agent_joker: Agent):
     messages = result.new_messages()
 
     assert result.usage() == snapshot(
-        Usage(requests=2, request_tokens=369, response_tokens=42, total_tokens=411),
+        Usage(requests=2, request_tokens=367, response_tokens=42, total_tokens=409),
     )
 
     # model decides to call tool
@@ -61,7 +60,11 @@ async def test_agent_joker(agent_joker: Agent):
     assert isinstance(messages[2], ModelRequest)
     assert isinstance(messages[2].parts[0], ToolReturnPart)
     assert messages[2].parts[0].tool_name == "generate_joke"
-    assert messages[2].parts[0].content == snapshot("Why couldn't the bicycle stand up by itself? Because it was two-tired!")
+    assert messages[2].parts[0].content == snapshot("""\
+Why don't skeletons fight each other?
+
+They don't have the guts!\
+""")
 
     # model's final response
     assert isinstance(messages[3], ModelResponse)
@@ -72,5 +75,5 @@ async def test_agent_joker(agent_joker: Agent):
     assert isinstance(result.data, str)
     assert len(result.data) > 0
     assert result.data == snapshot(
-        "Sure, here's a joke for you: Why couldn't the bicycle stand up by itself? Because it was two-tired!",
+        "Sure, here's a joke for you: Why don't skeletons fight each other? They don't have the guts! 😄",
     )

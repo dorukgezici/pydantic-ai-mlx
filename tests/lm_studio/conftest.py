@@ -8,7 +8,7 @@ from pydantic_ai_lm_studio import LMStudioModel
 
 @pytest.fixture
 def model_name() -> str:
-    return "mlx-community/Qwen2.5-7B-Instruct-4bit"
+    return "mlx-community/Qwen2.5-7B-Instruct-1M-6bit"
 
 
 @pytest.fixture
