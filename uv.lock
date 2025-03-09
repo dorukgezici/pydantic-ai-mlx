@@ -533,12 +533,16 @@ wheels = [
 
 [[package]]
 name = "pydantic-ai-mlx"
-version = "0.2.4"
+version = "0.2.5"
 source = { editable = "." }
 dependencies = [
-    { name = "mlx-lm" },
     { name = "openai" },
     { name = "pydantic-ai-slim" },
+]
+
+[package.optional-dependencies]
+mac = [
+    { name = "mlx-lm" },
 ]
 
 [package.dev-dependencies]
@@ -552,10 +556,11 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "mlx-lm", specifier = ">=0.21.5" },
+    { name = "mlx-lm", marker = "extra == 'mac'", specifier = ">=0.21.5" },
     { name = "openai", specifier = ">=1.65.4" },
     { name = "pydantic-ai-slim", specifier = ">=0.0.36" },
 ]
+provides-extras = ["mac"]
 
 [package.metadata.requires-dev]
 dev = [

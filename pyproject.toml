@@ -1,11 +1,14 @@
 [project]
 name = "pydantic-ai-mlx"
-version = "0.2.4"
+version = "0.2.5"
 description = "Run MLX compatible HuggingFace models with Pydantic AI locally"
 readme = "README.md"
 authors = [{ name = "Doruk Gezici", email = "doruk@gezici.me" }]
 requires-python = ">=3.12"
-dependencies = ["mlx-lm>=0.21.5", "openai>=1.65.4", "pydantic-ai-slim>=0.0.36"]
+dependencies = ["openai>=1.65.4", "pydantic-ai-slim>=0.0.36"]
+
+[project.optional-dependencies]
+mac = ["mlx-lm>=0.21.5"] # only available on MacOS
 
 [dependency-groups]
 dev = [
