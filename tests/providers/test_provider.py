@@ -3,12 +3,11 @@ from __future__ import annotations as _annotations
 from inline_snapshot import snapshot
 from pydantic_ai import Agent
 from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, ToolCallPart, ToolReturnPart
+from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.usage import Usage
 
-from pydantic_ai_lm_studio import LMStudioModel
 
-
-def test_init(model_name: str, model: LMStudioModel):
+def test_init(model_name: str, model: OpenAIModel):
     assert model.model_name == model_name
 
 
@@ -20,7 +19,7 @@ async def test_stream_text(agent: Agent):
         )
         assert result.is_complete
         assert result.usage() == snapshot(
-            Usage(requests=1, request_tokens=1197, response_tokens=231, total_tokens=1428),
+            Usage(requests=1, request_tokens=19, response_tokens=4, total_tokens=23),
         )
 
 
